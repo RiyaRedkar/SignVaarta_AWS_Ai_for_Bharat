@@ -1,88 +1,98 @@
-# 📘 SignVaarta
-
-## 🧩 Project Overview
-
-**SignVaarta** is an AI-powered communication and learning platform designed to bridge the communication gap between **Indian Sign Language (ISL)** users and the broader community.
-
-Unlike dictionary-based or word-to-word translation systems, SignVaarta treats ISL as a **full-fledged visual-spatial language** with its own grammar. The system converts ISL gestures into structured **ISL gloss**, then uses AI-driven language models to generate **fluent natural-language text and speech**, enabling meaningful two-way communication.
-
-This project is developed as part of the **AWS AI for Bharat Hackathon** under the theme **AI for Communities, Access & Public Impact**.
+# 🌐 SignVaarta  
+**AI-powered Indian Sign Language to Speech Communication Platform**
 
 ---
 
-## 🎯 Problem Statement
+## 🧩 What is SignVaarta?
 
-In India, Deaf & Hard-of-Hearing (DHH) and mute individuals primarily communicate using Indian Sign Language. However:
+**SignVaarta** is an AI-powered communication and learning platform that enables **meaningful, real-time communication between Indian Sign Language (ISL) users and non-signers**.
+
+Unlike conventional sign-language tools that rely on static dictionaries or word-by-word mapping, SignVaarta treats **ISL as a complete visual–spatial language**. It preserves ISL grammar using **gloss-based representation** and applies AI-driven language modeling to generate **fluent natural-language text and speech**.
+
+This project is developed for the **AWS AI for Bharat Hackathon**, under the theme  
+**AI for Communities, Access & Public Impact**.
+
+---
+
+## 🎯 Why this problem matters
+
+In India, millions of Deaf & Hard-of-Hearing (DHH) and mute individuals depend on ISL for communication. However:
 
 - ISL is not understood by most of the population  
-- Existing tools rely on static sign dictionaries or direct word mapping  
-- ISL grammar differs significantly from spoken languages  
-- Lack of real-time, linguistically accurate translation limits independence  
+- ISL grammar differs fundamentally from spoken languages  
+- Existing tools translate signs as isolated words, losing meaning  
+- Communication barriers persist in education, healthcare, and public services  
 
-As a result, everyday communication in education, healthcare, and public services remains inaccessible.
-
----
-
-## 💡 Solution Approach
-
-SignVaarta addresses this gap through a **linguistically aware AI pipeline**:
-
-**ISL Gestures → ISL Gloss → Natural Language → Speech**
-
-Key design principles:
-- ISL is treated as a **language**, not a gesture set
-- Gloss is used as an **intermediate representation**
-- AI models handle temporal, spatial, and contextual information
-- Architecture is **AWS-ready** and **MVP-feasible**
+This limits independence, inclusion, and access to essential opportunities.
 
 ---
 
-## 👥 Target Users
+## 💡 Our Core Idea (What makes SignVaarta different)
 
-- Deaf & Hard-of-Hearing (DHH) individuals  
-- Mute / non-verbal users  
-- ISL learners (students, teachers, caregivers)  
-- Non-signers communicating with ISL users  
+**ISL is not gestures → it is a language.**  
+SignVaarta is built around this principle.
 
----
+### Linguistically aware pipeline:
+![alt text](image-1.png)
 
-## 🧠 Core Features
 
-### 🔹 ISL to Speech (Primary Focus)
-- Camera-based ISL gesture capture
-- ISL gloss generation preserving linguistic structure
-- AI-based gloss-to-text conversion using LLMs
-- Text-to-speech output in Indian languages
+### Key design choices:
+- **Gloss as an intermediate representation** to preserve ISL grammar  
+- **AI sequence models** to understand temporal and spatial patterns  
+- **Large Language Models (LLMs)** for grammar-aware sentence reconstruction  
+- **Speech output** for real-world communication with non-signers  
 
-### 🔹 Bidirectional Communication
-- Speech-to-text for non-signers
-- Text-based response for ISL users
-- Designed to be simple, efficient, and readable
-
-### 🔹 ISL Learning & Feedback
-- AI-assisted evaluation of learner gestures
-- Feedback on correctness and improvement areas
-- Supports ISL literacy and inclusion
+This approach avoids broken translations and enables clear expression.
 
 ---
 
-## 🏗️ System Architecture (High-Level)
+## 👥 Who is it for?
 
-The platform follows a modular, cloud-ready architecture:
-
-- **Computer Vision** for gesture landmark extraction  
-- **Sequence Modeling** for ISL gloss generation  
-- **Language Models** for gloss-to-natural-language translation  
-- **Speech Services** for text-to-speech output  
-- **Serverless Backend** for scalable orchestration  
-
-Detailed architecture and data flow diagrams are available in [`design.md`](./design.md).
+- **Deaf & Hard-of-Hearing (DHH)** individuals  
+- **Mute / non-verbal** users  
+- **ISL learners** (students, teachers, caregivers)  
+- **Non-signers** communicating with ISL users  
 
 ---
 
-## ☁️ AWS Usage
+## 🧠 Key Capabilities
 
-SignVaarta is designed for AWS-based deployment with cost-aware, scalable components:
+### 🔹 ISL → Speech (Primary Focus)
+- Camera-based ISL gesture capture  
+- AI-driven ISL gloss generation  
+- Gloss-to-natural-language conversion using LLMs  
+- Text-to-speech output in Indian languages  
+
+### 🔹 Two-Way Communication
+- Speech-to-text for non-signers  
+- Text-based responses for ISL users  
+- Designed to be simple, readable, and efficient  
+
+### 🔹 Learning & Feedback
+- AI-assisted evaluation of learner gestures  
+- Feedback on correctness and improvement areas  
+- Supports ISL literacy and long-term inclusion  
+
+---
+
+## 🏗️ System Design (High Level)
+
+SignVaarta follows a **modular, cloud-ready architecture**:
+
+- **Computer Vision** – Gesture landmark extraction  
+- **Sequence Modeling** – ISL gloss generation  
+- **Language Models** – Gloss-to-text translation  
+- **Speech Services** – Text-to-speech output  
+- **Serverless Backend** – Scalable orchestration  
+
+📄 Detailed architecture diagrams and design rationale are available in  
+[`design.md`](./design.md)
+
+---
+
+## ☁️ AWS & AI Usage
+
+The platform is designed for AWS deployment with **cost-aware, scalable services**:
 
 - **Amazon SageMaker** – Model hosting and inference  
 - **AWS Bedrock** – LLM-based gloss-to-text translation  
@@ -91,33 +101,33 @@ SignVaarta is designed for AWS-based deployment with cost-aware, scalable compon
 - **Amazon Transcribe** – Speech-to-text (secondary feature)  
 - **Amazon S3 / DynamoDB** – Model artifacts and user preferences  
 
-The hackathon MVP focuses on **core functionality**, while the architecture supports future scaling.
+The **hackathon MVP** focuses on demonstrating the core ISL → gloss → text pipeline, while the architecture supports future scaling.
 
 ---
 
 ## 📂 Repository Structure
 
-![alt text](image.png)
+![alt text](image-2.png)
 
 
 ---
 
-## 🔒 Privacy & Ethics
+## 🔒 Privacy & Responsible AI
 
-- No long-term storage of raw video or audio data  
-- Temporary session data only, auto-deleted  
-- Explicit user consent required for any data used in model improvement  
-- Designed with accessibility and inclusion as first-class goals  
+- No long-term storage of raw video or audio  
+- Temporary session data only (auto-deleted)  
+- Explicit user consent for any data used in model improvement  
+- Accessibility, inclusion, and user dignity are core design principles  
 
 ---
 
 ## 🚀 Project Status
 
-- ✅ Requirements finalized using AWS Kiro  
-- ✅ System design aligned with MVP feasibility  
-- 🔄 Prototype implementation (future phase)  
+- ✅ Requirements finalized using **AWS Kiro**  
+- ✅ Architecture designed with **MVP feasibility** in mind  
+- 🔄 Prototype implementation planned  
 
-*The hackathon MVP focuses on demonstrating the ISL-to-gloss-to-text pipeline with a limited gesture set, while the full architecture illustrates scalability and future impact.*
+> *The hackathon MVP demonstrates the core ISL-to-gloss-to-text pipeline using a limited gesture set, while the full architecture illustrates real-world scalability and impact.*
 
 ---
 
@@ -132,11 +142,12 @@ The hackathon MVP focuses on **core functionality**, while the architecture supp
 
 ### 📌 Note to Evaluators
 
-This repository intentionally prioritizes:
+This repository prioritizes:
 - Clear problem understanding  
-- Linguistically correct AI design  
+- Linguistically correct use of AI  
 - Realistic MVP scope  
-- Responsible and justified use of AWS services  
+- Responsible and justified AWS usage  
 
-Implementation details can evolve, but the architectural and requirement foundations are designed to be **sound, scalable, and impactful**.
+The focus is on **sound system design and social impact**, with implementation depth scalable beyond the hackathon.
 
+---
