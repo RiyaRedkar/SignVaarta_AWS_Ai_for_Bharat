@@ -89,7 +89,7 @@ Advanced capabilities such as large-scale vocabularies, multi-signer handling, e
 1. WHEN a non-signer speaks into the system, THE System SHALL convert speech to text accurately
 2. WHEN multiple speakers are present, THE System SHALL focus on the primary speaker based on audio clarity
 3. WHEN speech contains regional accents or dialects, THE System SHALL aim to provide reliable speech-to-text conversion for common accents and dialects under typical conditions
-4. WHEN background noise interferes with speech recognition, THE System SHALL filter noise and enhance speech clarity
+4. WHEN background noise interferes with speech recognition, THE System SHALL attempt basic noise handling or notify the user
 5. WHERE text output is generated, THE System SHALL display it clearly for the signer to read
 
 ### Requirement 6: Learning Module and Assessment
@@ -99,7 +99,7 @@ Advanced capabilities such as large-scale vocabularies, multi-signer handling, e
 #### Acceptance Criteria
 
 1. WHEN a learner performs practice signs, THE System SHALL evaluate gesture accuracy and provide feedback
-2. WHEN learning progress is tracked, THE System SHALL maintain individual performance metrics and improvement suggestions
+2. WHEN learning progress is tracked, THE System SHALL maintain basic indicators of learner progress to support feedback
 3. WHEN incorrect gestures are detected, THE System SHALL provide feedback indicating whether the performed sign matches expected sign patterns
 4. WHEN learning modules are completed, THE System SHALL provide basic feedback to guide further learning
 5. WHERE gamification elements are included, THE System SHALL motivate continued learning through achievements and progress tracking
@@ -142,7 +142,7 @@ Advanced capabilities such as large-scale vocabularies, multi-signer handling, e
 
 ### Requirement 10: AWS Cloud Integration
 
-**User Story:** As a system architect, I want the platform to leverage AWS managed services for scalability and reliability, so that the system can handle production workloads efficiently.
+**User Story:** As a system architect, I want the platform to leverage AWS managed services for scalability and reliability, so that the system can handle scalable workloads as the system evolves beyond MVP.
 
 #### Acceptance Criteria
 
