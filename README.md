@@ -1,5 +1,6 @@
 # 🌐 SignVaarta  
 **AI-powered Indian Sign Language to Speech Communication Platform**
+**Original concept and architecture developed by Team TheCodeHers for AWS AI for Bharat 2026.**
 
 ---
 
