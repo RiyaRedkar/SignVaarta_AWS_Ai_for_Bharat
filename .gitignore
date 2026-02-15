@@ -1,7 +1,7 @@
 # Images
 image-1.png
 image-2.png
-*.png
+#*.png
 
 # PDFs
 TheCodeHers_AWS_AI_for_Bharat_Hackathon.pdf
