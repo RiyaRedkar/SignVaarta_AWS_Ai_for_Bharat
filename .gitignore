@@ -1,0 +1,54 @@
+# Images
+image-1.png
+image-2.png
+*.png
+
+# PDFs
+TheCodeHers_AWS_AI_for_Bharat_Hackathon.pdf
+*.pdf
+
+# PowerPoint presentations
+Idea Submission _ AWS AI for Bharat Hackathon.pptx
+TheCodeHers_RiyaRedkar.pptx
+*.pptx
+*.ppt
+
+# Generated diagrams (optional - uncomment if you want to ignore)
+# generated-diagrams/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+build/
+dist/
+*.egg-info/
+
+# Node
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Logs
+*.log
+logs/
+
+# Environment variables
+.env
+.env.local

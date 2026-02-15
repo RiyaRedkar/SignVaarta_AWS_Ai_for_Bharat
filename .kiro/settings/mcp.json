@@ -1,0 +1,17 @@
+{
+  "mcpServers": {
+    "awslabs.aws-diagram-mcp-server": {
+      "command": "wsl",
+      "args": [
+        "/home/dell/.local/bin/uvx",
+        "awslabs.aws-diagram-mcp-server"
+      ],
+      "env": {
+        "FASTMCP_LOG_LEVEL": "ERROR"
+      },
+      "autoApprove": [],
+      "disabled": false
+    }
+  }
+}
+
