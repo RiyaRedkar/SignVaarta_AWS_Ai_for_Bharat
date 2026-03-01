@@ -43,7 +43,7 @@
     });
 
     hands.onResults(results => {
-        if (results.multiHandLandmarks) {
+        if (results.multiHandLandmarks && results.multiHandLandmarks.length > 0) {
             const landmarks = results.multiHandLandmarks[0];
 
             let frame = [];
