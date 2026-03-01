@@ -13,87 +13,91 @@
     <h3>Prediction:</h3>
     <p id="result">Waiting...</p>
 
-    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js"
-            crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js"
-            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js"></script>
 
     <script>
-        const video = document.getElementById("video");
-        const result = document.getElementById("result");
+    const video = document.getElementById("video");
+    const result = document.getElementById("result");
 
-        navigator.mediaDevices.getUserMedia({ video: true })
-            .then(stream => {
-                video.srcObject = stream;
+    navigator.mediaDevices.getUserMedia({ video: true })
+        .then(stream => {
+            video.srcObject = stream;
+        });
+
+    let frameBuffer = [];
+
+    /* ----------- MEDIA PIPE INITIALIZATION ----------- */
+
+    const hands = new Hands({
+        locateFile: (file) => {
+            return `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`;
+        }
+    });
+
+    hands.setOptions({
+    maxNumHands: 1,
+    modelComplexity: 1,
+    minDetectionConfidence: 0.7,
+    minTrackingConfidence: 0.7
+    });
+
+    hands.onResults(results => {
+        if (results.multiHandLandmarks) {
+            const landmarks = results.multiHandLandmarks[0];
+
+            let frame = [];
+            landmarks.forEach(lm => {
+                frame.push(lm.x, lm.y, lm.z);
             });
 
-        let frameBuffer = [];
+            if (frame.length === 63) {
+                frame = frame.concat(new Array(63).fill(0));
+            }
 
-        async function captureFrames() {
-            frameBuffer = [];
-            result.innerText = "Capturing...";
-
-            const hands = new Hands({
-                locateFile: (file) => {
-                    return `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`;
-                }
-            });
-
-            hands.setOptions({
-                maxNumHands: 1,
-                minDetectionConfidence: 0.7,
-                minTrackingConfidence: 0.7
-            });
-
-            hands.onResults(results => {
-                if (results.multiHandLandmarks) {
-                    const landmarks = results.multiHandLandmarks[0];
-
-                    let frame = [];
-                    landmarks.forEach(lm => {
-                        frame.push(lm.x, lm.y, lm.z);
-                    });
-
-                    if (frame.length === 63) {
-                        // Pad to 126 (only one hand detected)
-                        frame = frame.concat(new Array(63).fill(0));
-                    }
-
-                    if (frame.length === 126) {
-                        frameBuffer.push(frame);
-                    }
-                }
-
-                if (frameBuffer.length === 30) {
-                    sendToAPI();
-                }
-            });
-
-            const camera = new Camera(video, {
-                onFrame: async () => {
-                    await hands.send({ image: video });
-                },
-                width: 400,
-                height: 300
-            });
-
-            camera.start();
+            if (frame.length === 126) {
+                frameBuffer.push(frame);
+            }
         }
 
-        async function sendToAPI() {
-            result.innerText = "Sending to server...";
-
-            const response = await fetch("http://13.201.89.105:8000/predict", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({ data: frameBuffer })
-            });
-
-            const data = await response.json();
-            result.innerText = data.prediction;
+        if (frameBuffer.length === 30) {
+            sendToAPI();
         }
-    </script>
-</body>
+    });
+
+    /* ----------- CAMERA START ----------- */
+
+    const camera = new Camera(video, {
+        onFrame: async () => {
+            await hands.send({ image: video });
+        },
+        width: 400,
+        height: 300
+    });
+
+    camera.start();
+
+    /* ----------- BUTTON ACTION ----------- */
+
+    function captureFrames() {
+        frameBuffer = [];
+        result.innerText = "Capturing...";
+    }
+
+    /* ----------- BACKEND CALL ----------- */
+
+    async function sendToAPI() {
+        result.innerText = "Sending to server...";
+
+        const response = await fetch("http://13.201.89.105:8000/predict", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ data: frameBuffer })
+        });
+
+        const data = await response.json();
+        result.innerText = data.prediction;
+    }
+</script>
+</body> 
 </html>
