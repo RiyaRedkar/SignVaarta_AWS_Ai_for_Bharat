@@ -89,7 +89,7 @@
     async function sendToAPI() {
         result.innerText = "Sending to server...";
 
-        const response = await fetch("http://13.201.89.105:8000/predict", {
+        const response = await fetch("http://signvaarta-alb-603777261.ap-south-1.elb.amazonaws.com/predict", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ data: frameBuffer })
