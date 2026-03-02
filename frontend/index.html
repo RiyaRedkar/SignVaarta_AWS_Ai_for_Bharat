@@ -12,6 +12,16 @@
     <h3>Prediction:</h3>
     <p id="result">Waiting...</p>
 
+    <h3>Formatted Sentence:</h3>
+    <p id="sentence">Waiting...</p>
+
+    <button onclick="speakSentence()">Speak</button>
+
+    <br>
+    <button onclick="generateSentence()">Generate Sentence</button>
+    <button onclick="speakSentence()">Speak</button>
+    <button onclick="clearText()">Clear</button>
+
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js"></script>
 
@@ -30,6 +40,9 @@
 
     let predictionHistory = [];
     const STABILITY_COUNT = 3;
+
+    const sentenceOutput = document.getElementById("sentence");
+    let formattedSentence = "";
 
     /* ----------- CAMERA ACCESS ----------- */
 
@@ -164,6 +177,63 @@
             isPredicting = false;
         }, 200);
     }
+
+    async function generateSentence() {
+
+        if (!currentWord) return;
+
+        try {
+            const response = await fetch("https://api.signvaarta.com/format", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ text: currentWord })
+            });
+
+            const data = await response.json();
+
+            if (data.sentence) {
+                sentenceOutput.innerText = data.sentence;
+            } else {
+                sentenceOutput.innerText = "Formatting error";
+            }
+
+        } catch (error) {
+            console.error(error);
+            sentenceOutput.innerText = "Formatting error";
+        }
+    }
+
+    async function speakSentence() {
+
+        if (!sentenceOutput.innerText || sentenceOutput.innerText === "Waiting...") return;
+
+        try {
+            const response = await fetch("https://api.signvaarta.com/speak", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ text: sentenceOutput.innerText })
+            });
+
+            const data = await response.json();
+
+            if (data.audio) {
+                const audio = new Audio("data:audio/mp3;base64," + data.audio);
+                audio.play();
+            }
+
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    function clearText() {
+        currentWord = "";
+        lastLetter = "";
+        predictionHistory = [];
+        result.innerText = "Waiting...";
+        sentenceOutput.innerText = "Waiting...";
+    }
+        
     </script>
 </body> 
 </html>
