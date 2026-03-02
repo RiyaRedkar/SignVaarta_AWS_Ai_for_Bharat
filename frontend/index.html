@@ -8,7 +8,6 @@
 
     <video id="video" width="400" height="300" autoplay></video>
     <br><br>
-    <button onclick="captureFrames()">Capture 30 Frames</button>
 
     <h3>Prediction:</h3>
     <p id="result">Waiting...</p>
@@ -20,12 +19,19 @@
     const video = document.getElementById("video");
     const result = document.getElementById("result");
 
+    let isPredicting = false;
+    let frameBuffer = [];
+
+    /* ----------- CAMERA ACCESS ----------- */
+
     navigator.mediaDevices.getUserMedia({ video: true })
         .then(stream => {
             video.srcObject = stream;
+        })
+        .catch(err => {
+            result.innerText = "Camera access denied";
+            console.error(err);
         });
-
-    let frameBuffer = [];
 
     /* ----------- MEDIA PIPE INITIALIZATION ----------- */
 
@@ -36,10 +42,10 @@
     });
 
     hands.setOptions({
-    maxNumHands: 1,
-    modelComplexity: 1,
-    minDetectionConfidence: 0.7,
-    minTrackingConfidence: 0.7
+        maxNumHands: 1,
+        modelComplexity: 1,
+        minDetectionConfidence: 0.7,
+        minTrackingConfidence: 0.7
     });
 
     hands.onResults(results => {
@@ -51,6 +57,7 @@
                 frame.push(lm.x, lm.y, lm.z);
             });
 
+            // If one hand detected (63 values), pad to 126
             if (frame.length === 63) {
                 frame = frame.concat(new Array(63).fill(0));
             }
@@ -58,10 +65,16 @@
             if (frame.length === 126) {
                 frameBuffer.push(frame);
             }
-        }
 
-        if (frameBuffer.length === 30) {
-            sendToAPI();
+            // Keep sliding window of 30 frames
+            if (frameBuffer.length > 30) {
+                frameBuffer.shift();
+            }
+
+            // Trigger prediction
+            if (frameBuffer.length === 30) {
+                sendToAPI();
+            }
         }
     });
 
@@ -77,27 +90,46 @@
 
     camera.start();
 
-    /* ----------- BUTTON ACTION ----------- */
-
-    function captureFrames() {
-        frameBuffer = [];
-        result.innerText = "Capturing...";
-    }
-
     /* ----------- BACKEND CALL ----------- */
 
     async function sendToAPI() {
-        result.innerText = "Sending to server...";
 
-        const response = await fetch("https://api.signvaarta.com/predict", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ data: frameBuffer })
-        });
+        if (isPredicting) return;
 
-        const data = await response.json();
-        result.innerText = data.prediction;
+        isPredicting = true;
+
+        // Copy buffer to avoid mutation during async call
+        const bufferCopy = [...frameBuffer];
+
+        try {
+            const response = await fetch("https://api.signvaarta.com/predict", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ data: bufferCopy })
+            });
+
+            if (!response.ok) {
+                throw new Error("Server error");
+            }
+
+            const data = await response.json();
+
+            if (data.prediction) {
+                result.innerText = data.prediction;
+            } else {
+                result.innerText = "No prediction";
+            }
+
+        } catch (error) {
+            console.error(error);
+            result.innerText = "Prediction error";
+        }
+
+        // Small delay to avoid spamming backend
+        setTimeout(() => {
+            isPredicting = false;
+        }, 200);
     }
-</script>
+    </script>
 </body> 
 </html>
