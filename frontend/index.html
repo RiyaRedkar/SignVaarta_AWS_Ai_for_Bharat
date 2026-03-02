@@ -22,6 +22,12 @@
     let isPredicting = false;
     let frameBuffer = [];
 
+    let currentWord = "";
+    let lastLetter = "";
+    let lastAppendTime = 0;
+    const LETTER_COOLDOWN = 800; // milliseconds
+    const CONFIDENCE_THRESHOLD = 0.80;
+
     /* ----------- CAMERA ACCESS ----------- */
 
     navigator.mediaDevices.getUserMedia({ video: true })
@@ -114,10 +120,24 @@
 
             const data = await response.json();
 
-            if (data.prediction) {
-                result.innerText = data.prediction;
+            if (data.prediction && data.confidence >= CONFIDENCE_THRESHOLD) {
+
+                const predictedLetter = data.prediction;
+                const now = Date.now();
+
+                if (
+                    predictedLetter !== lastLetter ||
+                    (now - lastAppendTime > LETTER_COOLDOWN)
+                ) {
+                    currentWord += predictedLetter;
+                    lastLetter = predictedLetter;
+                    lastAppendTime = now;
+                }
+
+                result.innerText = currentWord;
+
             } else {
-                result.innerText = "No prediction";
+                result.innerText = currentWord || "Detecting...";
             }
 
         } catch (error) {
