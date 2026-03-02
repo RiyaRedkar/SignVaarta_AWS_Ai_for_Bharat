@@ -28,6 +28,9 @@
     const LETTER_COOLDOWN = 800; // milliseconds
     const CONFIDENCE_THRESHOLD = 0.80;
 
+    let predictionHistory = [];
+    const STABILITY_COUNT = 3;
+
     /* ----------- CAMERA ACCESS ----------- */
 
     navigator.mediaDevices.getUserMedia({ video: true })
@@ -123,21 +126,32 @@
             if (data.prediction && data.confidence >= CONFIDENCE_THRESHOLD) {
 
                 const predictedLetter = data.prediction;
-                const now = Date.now();
 
-                if (
-                    predictedLetter !== lastLetter ||
-                    (now - lastAppendTime > LETTER_COOLDOWN)
-                ) {
-                    currentWord += predictedLetter;
+                predictionHistory.push(predictedLetter);
+
+                if (predictionHistory.length > STABILITY_COUNT) {
+                    predictionHistory.shift();
+                }
+
+                const allSame = predictionHistory.every(
+                    letter => letter === predictedLetter
+                );
+
+                if (allSame && predictedLetter !== lastLetter) {
+
+                    if (predictedLetter.length === 1) {
+                        // Letter or digit
+                        currentWord += predictedLetter;
+                    } else {
+                        // Full word class
+                        currentWord = predictedLetter;
+                    }
+
                     lastLetter = predictedLetter;
-                    lastAppendTime = now;
+                    predictionHistory = [];
                 }
 
                 result.innerText = currentWord;
-
-            } else {
-                result.innerText = currentWord || "Detecting...";
             }
 
         } catch (error) {
