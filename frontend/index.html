@@ -63,22 +63,25 @@
     });
 
     hands.setOptions({
-        maxNumHands: 1,
+        maxNumHands: 2,
         modelComplexity: 1,
-        minDetectionConfidence: 0.7,
-        minTrackingConfidence: 0.7
+        minDetectionConfidence: 0.5,
+        minTrackingConfidence: 0.5
     });
 
     hands.onResults(results => {
         if (results.multiHandLandmarks && results.multiHandLandmarks.length > 0) {
-            const landmarks = results.multiHandLandmarks[0];
 
             let frame = [];
-            landmarks.forEach(lm => {
-                frame.push(lm.x, lm.y, lm.z);
+
+            // Append landmarks in the SAME order MediaPipe returns (like training)
+            results.multiHandLandmarks.forEach(hand => {
+                hand.forEach(lm => {
+                    frame.push(lm.x, lm.y, lm.z);
+                });
             });
 
-            // If one hand detected (63 values), pad to 126
+            // If only 1 hand detected → pad 63 zeros (match training)
             if (frame.length === 63) {
                 frame = frame.concat(new Array(63).fill(0));
             }
@@ -98,7 +101,6 @@
             }
         }
     });
-
     /* ----------- CAMERA START ----------- */
 
     const camera = new Camera(video, {
