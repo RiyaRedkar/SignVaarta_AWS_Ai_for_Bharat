@@ -35,7 +35,6 @@
 
     <script>
     const video = document.getElementById("video");
-    const result = document.getElementById("result");
     const predictionText = document.getElementById("predictionText");
     const confidenceBar = document.getElementById("confidenceBar");
     const confidenceValue = document.getElementById("confidenceValue");
@@ -78,7 +77,7 @@
             video.srcObject = stream;
         })
         .catch(err => {
-            result.innerText = "Camera access denied";
+            predictionText.innerText = "Camera access denied";
             console.error(err);
         });
 
@@ -225,7 +224,7 @@
 
         } catch (error) {
             console.error(error);
-            result.innerText = "Prediction error";
+            predictionText.innerText = "Prediction error";
         }
 
         // Small delay to avoid spamming backend
@@ -306,7 +305,10 @@
 
         lastSignTime = Date.now();
 
-        result.innerText = "Waiting...";
+        predictionText.innerText = "Waiting...";
+        confidenceBar.style.width = "0%";
+        confidenceValue.innerText = "0%";
+        glossText.innerText = "Waiting...";
         sentenceOutput.innerText = "Waiting...";
     }
 
