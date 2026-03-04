@@ -297,7 +297,7 @@
         const now = Date.now();
         const glossText = [...finalGloss, currentLetters].join(" ");
 
-        if (!sentenceGenerated && glossText.length > 0 && (now - lastSignTime) > PAUSE_THRESHOLD) { {
+        if (!sentenceGenerated && glossText.length > 0 && (now - lastSignTime) > PAUSE_THRESHOLD)  {
 
             generateSentence();
 
