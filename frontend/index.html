@@ -40,6 +40,9 @@
     let currentLetters = "";
     let finalGloss = [];
 
+    let lastSignTime = Date.now();
+    const PAUSE_THRESHOLD = 2000; // 2 seconds
+
     const STABILITY_THRESHOLD = 4;
 
     let currentWord = "";
@@ -167,6 +170,7 @@
                     if (glossTokens.length === 0 || glossTokens[glossTokens.length - 1] !== prediction) {
 
                         glossTokens.push(prediction);
+                        lastSignTime = Date.now();
 
                         // ---- Word Builder (only when token is stable) ----
 
@@ -275,6 +279,22 @@
         result.innerText = "Waiting...";
         sentenceOutput.innerText = "Waiting...";
     }
+
+    setInterval(() => {
+
+        const now = Date.now();
+        const glossText = [...finalGloss, currentLetters].join(" ");
+
+        if (glossText.length > 0 && (now - lastSignTime) > PAUSE_THRESHOLD) {
+
+            generateSentence();
+
+            // prevent repeated triggering
+            lastSignTime = now + 5000;
+
+        }
+
+    }, 500);
             
     </script>
 </body> 
