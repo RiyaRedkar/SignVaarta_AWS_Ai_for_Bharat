@@ -31,6 +31,9 @@
     let isPredicting = false;
     let frameBuffer = [];
 
+    let detectedSigns = [];   // stores every detected prediction
+    let lastPrediction = "";  // optional for later filtering
+
     let currentWord = "";
     let lastLetter = "";
     let lastAppendTime = 0;
@@ -139,9 +142,15 @@
 
             if (data.prediction) {
 
+                const prediction = data.prediction;
+
+                // store every prediction in gloss buffer
+                detectedSigns.push(prediction);
+
                 result.innerText =
-                    "Prediction: " + data.prediction +
-                    " | Confidence: " + data.confidence.toFixed(2);
+                    "Prediction: " + prediction +
+                    " | Confidence: " + data.confidence.toFixed(2) +
+                    "\nGloss Buffer: " + detectedSigns.join(" ");
             }
 
         } catch (error) {
@@ -207,6 +216,7 @@
         currentWord = "";
         lastLetter = "";
         predictionHistory = [];
+        detectedSigns = [];
         result.innerText = "Waiting...";
         sentenceOutput.innerText = "Waiting...";
     }
