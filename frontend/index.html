@@ -41,9 +41,9 @@
     let finalGloss = [];
 
     let lastSignTime = Date.now();
-    const PAUSE_THRESHOLD = 2000; // 2 seconds
+    const PAUSE_THRESHOLD = 5000; // 2 seconds
 
-    const STABILITY_THRESHOLD = 4;
+    const STABILITY_THRESHOLD = 2;
 
     let currentWord = "";
     let lastLetter = "";
@@ -281,6 +281,8 @@
 
         frameBuffer = [];
 
+        lastSignTime = Date.now();
+
         result.innerText = "Waiting...";
         sentenceOutput.innerText = "Waiting...";
     }
@@ -295,7 +297,7 @@
             generateSentence();
 
             // prevent repeated triggering
-            lastSignTime = now + 5000;
+            lastSignTime = Date.now();
 
         }
 
