@@ -31,8 +31,13 @@
     let isPredicting = false;
     let frameBuffer = [];
 
-    let detectedSigns = [];   // stores every detected prediction
-    let lastPrediction = "";  // optional for later filtering
+    let rawPredictions = [];
+    let glossTokens = [];
+
+    let lastPrediction = "";
+    let repeatCount = 0;
+
+    const STABILITY_THRESHOLD = 4;
 
     let currentWord = "";
     let lastLetter = "";
@@ -144,13 +149,25 @@
 
                 const prediction = data.prediction;
 
-                // store every prediction in gloss buffer
-                detectedSigns.push(prediction);
+                rawPredictions.push(prediction);
+
+                if (prediction === lastPrediction) {
+                    repeatCount++;
+                } else {
+                    repeatCount = 1;
+                }
+
+                lastPrediction = prediction;
+
+                // Accept token if stable
+                if (repeatCount === STABILITY_THRESHOLD) {
+                    glossTokens.push(prediction);
+}
 
                 result.innerText =
-                    "Prediction: " + prediction +
-                    " | Confidence: " + data.confidence.toFixed(2) +
-                    "\nGloss Buffer: " + detectedSigns.join(" ");
+                "Prediction: " + prediction +
+                " | Confidence: " + data.confidence.toFixed(2) +
+                "\nGloss: " + glossTokens.join(" ");
             }
 
         } catch (error) {
