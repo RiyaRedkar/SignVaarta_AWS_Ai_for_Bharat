@@ -37,6 +37,9 @@
     let lastPrediction = "";
     let repeatCount = 0;
 
+    let currentLetters = "";
+    let finalGloss = [];
+
     const STABILITY_THRESHOLD = 4;
 
     let currentWord = "";
@@ -161,17 +164,36 @@
 
                 if (repeatCount === STABILITY_THRESHOLD) {
 
-                    // prevent duplicate tokens
                     if (glossTokens.length === 0 || glossTokens[glossTokens.length - 1] !== prediction) {
-                        glossTokens.push(prediction);
-                    }
 
+                        glossTokens.push(prediction);
+
+                        // ---- Word Builder (only when token is stable) ----
+
+                        if (prediction.length === 1) {
+
+                            // Letter or number → build word
+                            currentLetters += prediction;
+
+                        } else {
+
+                            // Word class detected
+
+                            if (currentLetters.length > 0) {
+                                finalGloss.push(currentLetters);
+                                currentLetters = "";
+                            }
+
+                            finalGloss.push(prediction);
+                        }
+
+                    }
                 }
 
                 result.innerText =
                     "Prediction: " + prediction +
                     " | Confidence: " + data.confidence.toFixed(2) +
-                    "\nGloss: " + glossTokens.join(" ");
+                    "\nGloss: " + [...finalGloss, currentLetters].join(" ");
             }
 
         } catch (error) {
@@ -241,9 +263,8 @@
         repeatCount = 0;
         lastPrediction = "";
 
-        currentWord = "";
-        lastLetter = "";
-        predictionHistory = [];
+        currentLetters = "";
+        finalGloss = [];
 
         result.innerText = "Waiting...";
         sentenceOutput.innerText = "Waiting...";
