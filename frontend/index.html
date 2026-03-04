@@ -172,12 +172,9 @@
 
                         if (prediction.length === 1) {
 
-                            // Letter or number → build word
                             currentLetters += prediction;
 
                         } else {
-
-                            // Word class detected
 
                             if (currentLetters.length > 0) {
                                 finalGloss.push(currentLetters);
@@ -193,7 +190,13 @@
                 result.innerText =
                     "Prediction: " + prediction +
                     " | Confidence: " + data.confidence.toFixed(2) +
-                    "\nGloss: " + [...finalGloss, currentLetters].join(" ");
+                    "\nGloss: " + [...finalGloss, ...(currentLetters ? [currentLetters] : [])].join(" ");
+
+            } else {
+
+                // reset stability when prediction confidence is low
+                repeatCount = 0;
+
             }
 
         } catch (error) {
@@ -209,13 +212,14 @@
 
     async function generateSentence() {
 
-        if (!currentWord) return;
+        const glossText = [...finalGloss, currentLetters].join(" ");
+        if (!glossText) return;
 
         try {
             const response = await fetch("https://api.signvaarta.com/format", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ text: currentWord })
+                body: JSON.stringify({ text: glossText })
             });
 
             const data = await response.json();
@@ -265,6 +269,8 @@
 
         currentLetters = "";
         finalGloss = [];
+
+        frameBuffer = [];
 
         result.innerText = "Waiting...";
         sentenceOutput.innerText = "Waiting...";
