@@ -148,7 +148,7 @@
 
             const data = await response.json();
 
-            if (data.prediction) {
+            if (data.prediction && data.confidence >= CONFIDENCE_THRESHOLD) {
 
                 const prediction = data.prediction;
 
