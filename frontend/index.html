@@ -41,7 +41,7 @@
     let finalGloss = [];
 
     let lastSignTime = Date.now();
-    const PAUSE_THRESHOLD = 5000; // 2 seconds
+    const PAUSE_THRESHOLD = 4000; // 4 seconds
 
     const STABILITY_THRESHOLD = 2;
 
@@ -232,8 +232,10 @@
 
                 sentenceOutput.innerText = data.sentence;
 
-                // automatically speak the sentence
-                speakSentence(data.sentence);
+                // small delay before speaking so user can read sentence
+                setTimeout(() => {
+                    speakSentence(data.sentence);
+                }, 1200);
 
             } else {
                 sentenceOutput.innerText = "Formatting error";
@@ -301,7 +303,7 @@
 
         }
 
-    }, 500);
+    }, 1000);
             
     </script>
 </body> 
