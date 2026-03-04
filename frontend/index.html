@@ -229,7 +229,12 @@
             const data = await response.json();
 
             if (data.sentence) {
+
                 sentenceOutput.innerText = data.sentence;
+
+                // automatically speak the sentence
+                speakSentence(data.sentence);
+
             } else {
                 sentenceOutput.innerText = "Formatting error";
             }
@@ -240,7 +245,7 @@
         }
     }
 
-    async function speakSentence() {
+    async function speakSentence(text = sentenceOutput.innerText) {
 
         if (!sentenceOutput.innerText || sentenceOutput.innerText === "Waiting...") return;
 
@@ -248,7 +253,7 @@
             const response = await fetch("https://api.signvaarta.com/speak", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ text: sentenceOutput.innerText })
+                body: JSON.stringify({ text: text })
             });
 
             const data = await response.json();
