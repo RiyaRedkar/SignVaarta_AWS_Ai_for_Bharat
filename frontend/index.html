@@ -9,8 +9,17 @@
     <video id="video" width="400" height="300" autoplay></video>
     <br><br>
 
-    <h3>Prediction:</h3>
-    <p id="result">Waiting...</p>
+    <h3>Prediction</h3>
+    <div id="predictionText">Waiting...</div>
+
+    <h3>Confidence</h3>
+    <div style="width:300px;background:#eee;border-radius:6px;">
+        <div id="confidenceBar" style="height:20px;width:0%;background:#4CAF50;border-radius:6px;"></div>
+    </div>
+    <div id="confidenceValue">0%</div>
+
+    <h3>Gloss</h3>
+    <div id="glossText">Waiting...</div>
 
     <h3>Formatted Sentence:</h3>
     <p id="sentence">Waiting...</p>
@@ -27,6 +36,10 @@
     <script>
     const video = document.getElementById("video");
     const result = document.getElementById("result");
+    const predictionText = document.getElementById("predictionText");
+    const confidenceBar = document.getElementById("confidenceBar");
+    const confidenceValue = document.getElementById("confidenceValue");
+    const glossText = document.getElementById("glossText");
 
     let isPredicting = false;
     let frameBuffer = [];
@@ -193,10 +206,15 @@
                     }
                 }
 
-                result.innerText =
-                    "Prediction: " + prediction +
-                    " | Confidence: " + data.confidence.toFixed(2) +
-                    "\nGloss: " + [...finalGloss, ...(currentLetters ? [currentLetters] : [])].join(" ");
+                predictionText.innerText = prediction;
+
+                const confidencePercent = Math.round(data.confidence * 100);
+
+                confidenceBar.style.width = confidencePercent + "%";
+                confidenceValue.innerText = confidencePercent + "%";
+
+                glossText.innerText =
+                    [...finalGloss, ...(currentLetters ? [currentLetters] : [])].join(" ");
 
             } else {
 
