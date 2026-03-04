@@ -1,3 +1,39 @@
+/* NAVBAR */
+
+.navbar{
+    background: linear-gradient(90deg,#7b4ce2,#8a5cf6);
+    color:white;
+    padding:20px 40px;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.page-content{
+    padding:40px;
+}
+
+.logo{
+    font-size:36px;
+    font-weight:bold;
+}
+
+.nav-links{
+    display:flex;
+    gap:30px;
+}
+
+.nav-links a{
+    color:white;
+    text-decoration:none;
+    font-size:18px;
+}
+
+.nav-links a:hover{
+    text-decoration:underline;
+}
+
 body{
     font-family: Arial, Helvetica, sans-serif;
     margin:0;
