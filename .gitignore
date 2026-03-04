@@ -52,3 +52,9 @@ logs/
 # Environment variables
 .env
 .env.local
+
+venv/
+*.h5
+*.npy
+__pycache__/
+.env
