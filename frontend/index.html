@@ -159,15 +159,19 @@
 
                 lastPrediction = prediction;
 
-                // Accept token if stable
                 if (repeatCount === STABILITY_THRESHOLD) {
-                    glossTokens.push(prediction);
-}
+
+                    // prevent duplicate tokens
+                    if (glossTokens.length === 0 || glossTokens[glossTokens.length - 1] !== prediction) {
+                        glossTokens.push(prediction);
+                    }
+
+                }
 
                 result.innerText =
-                "Prediction: " + prediction +
-                " | Confidence: " + data.confidence.toFixed(2) +
-                "\nGloss: " + glossTokens.join(" ");
+                    "Prediction: " + prediction +
+                    " | Confidence: " + data.confidence.toFixed(2) +
+                    "\nGloss: " + glossTokens.join(" ");
             }
 
         } catch (error) {
@@ -230,14 +234,21 @@
     }
 
     function clearText() {
+
+        rawPredictions = [];
+        glossTokens = [];
+
+        repeatCount = 0;
+        lastPrediction = "";
+
         currentWord = "";
         lastLetter = "";
         predictionHistory = [];
-        detectedSigns = [];
+
         result.innerText = "Waiting...";
         sentenceOutput.innerText = "Waiting...";
     }
-        
+            
     </script>
 </body> 
 </html>
