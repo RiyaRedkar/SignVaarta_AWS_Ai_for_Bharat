@@ -68,31 +68,38 @@ video{
     border-radius:10px;
 }
 
-/* ISL page layout */
+/* ISL layout */
 
 .isl-container{
     display:flex;
-    gap:40px;
+    gap:60px;
     align-items:flex-start;
-    margin-top:30px;
+    margin-top:40px;
+    max-width:1100px;
 }
 
+/* camera */
+
 .camera-section video{
-    width:450px;
+    width:480px;
     border-radius:12px;
 }
 
+/* prediction panel */
+
 .prediction-section{
-    max-width:400px;
+    width:420px;
 }
+
+/* buttons */
 
 .button-row{
     margin-top:20px;
     display:flex;
-    gap:10px;
+    gap:12px;
 }
 
-/* responsive layout */
+/* responsive */
 
 @media (max-width:768px){
 
