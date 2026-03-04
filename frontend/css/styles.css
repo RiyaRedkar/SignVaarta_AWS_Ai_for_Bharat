@@ -1,110 +1,69 @@
 body{
-    font-family: Arial;
+    font-family: Arial, Helvetica, sans-serif;
     margin:0;
-    background:#f5f5f5;
+    padding:40px;
+    background:#f5f6fa;
 }
 
-/* HEADER */
+/* headings */
 
-.header{
-    background: linear-gradient(90deg,#7b4ce0,#8a5df2);
-    color:white;
-    padding:20px;
-    font-size:28px;
+h1{
+    font-size:48px;
+    margin-bottom:20px;
 }
 
-/* NAVBAR */
-
-.navbar{
-    background: linear-gradient(90deg,#7b4ce0,#8a5df2);
-    display:flex;
-    justify-content:center;
-    gap:40px;
-    padding:15px;
+h2{
+    margin-top:30px;
 }
 
-.navbar a{
-    color:white;
+h3{
+    margin-top:20px;
+}
+
+/* links */
+
+a{
+    color:#6a5acd;
     text-decoration:none;
-    font-size:18px;
+    font-weight:500;
 }
 
-/* MAIN GRID */
-
-.main-grid{
-    display:grid;
-    grid-template-columns: 1fr 1fr;
-    gap:30px;
-    padding:30px;
+a:hover{
+    text-decoration:underline;
 }
 
-/* CAMERA PANEL */
+/* buttons */
 
-.camera-panel{
-    background:#ddd;
-    border-radius:8px;
-    padding:10px;
+button{
+    padding:10px 16px;
+    border-radius:6px;
+    border:1px solid #ccc;
+    cursor:pointer;
+    background:white;
 }
 
-.camera-panel video{
-    width:100%;
-    border-radius:8px;
+button:hover{
+    background:#f0f0f0;
 }
 
-/* OUTPUT PANEL */
-
-.output-panel{
-    display:flex;
-    flex-direction:column;
-    gap:20px;
-}
-
-/* CARDS */
-
-.card{
-    background:#ddd;
-    padding:20px;
-    border-radius:8px;
-}
-
-/* CONFIDENCE BAR */
+/* confidence bar */
 
 .confidence-container{
-    width:100%;
+    width:300px;
     height:20px;
-    background:#eee;
-    border-radius:20px;
-    overflow:hidden;
+    background:#ddd;
+    border-radius:8px;
 }
 
 #confidenceBar{
     height:100%;
     width:0%;
-    background:linear-gradient(90deg,#7ed957,#b8e269);
+    background:#4CAF50;
+    border-radius:8px;
 }
 
-/* BUTTONS */
+/* video */
 
-.button-row{
-    display:flex;
-    gap:20px;
-}
-
-button{
-    flex:1;
-    padding:15px;
-    border:none;
-    border-radius:30px;
-    background:linear-gradient(90deg,#7ed957,#b8e269);
-    font-size:16px;
-}
-
-/* MOBILE RESPONSIVE */
-
-@media(max-width:768px){
-
-    .main-grid{
-        grid-template-columns:1fr;
-    }
-
+video{
+    border-radius:10px;
 }
