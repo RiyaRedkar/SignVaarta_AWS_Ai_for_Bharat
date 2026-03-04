@@ -39,6 +39,7 @@
 
     let currentLetters = "";
     let finalGloss = [];
+    let sentenceGenerated = false;
 
     let lastSignTime = Date.now();
     const PAUSE_THRESHOLD = 4000; // 4 seconds
@@ -171,6 +172,7 @@
 
                         glossTokens.push(prediction);
                         lastSignTime = Date.now();
+                        sentenceGenerated = false;
 
                         // ---- Word Builder (only when token is stable) ----
 
@@ -294,7 +296,7 @@
         const now = Date.now();
         const glossText = [...finalGloss, currentLetters].join(" ");
 
-        if (glossText.length > 0 && (now - lastSignTime) > PAUSE_THRESHOLD) {
+        if (!sentenceGenerated && glossText.length > 0 && (now - lastSignTime) > PAUSE_THRESHOLD) { {
 
             generateSentence();
 
