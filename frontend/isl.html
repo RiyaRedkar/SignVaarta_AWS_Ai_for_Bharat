@@ -24,14 +24,17 @@
     <div class="isl-container">
 
         <div class="camera-section">
-            <video id="video" width="400" height="300" autoplay></video>
+            <video id="video" autoplay></video>
         </div>
 
         <div class="prediction-section">
 
+        <div class="card">
             <h3>Prediction</h3>
             <div id="predictionText">Waiting...</div>
+        </div>
 
+        <div class="card">
             <h3>Confidence</h3>
 
             <div class="confidence-container">
@@ -39,20 +42,25 @@
             </div>
 
             <div id="confidenceValue">0%</div>
+        </div>
 
+        <div class="card">
             <h3>Gloss</h3>
             <div id="glossText">Waiting...</div>
+        </div>
 
+        <div class="card">
             <h3>Formatted Sentence</h3>
             <p id="sentence">Waiting...</p>
-
-            <div class="button-row">
-                <button onclick="generateSentence()">Generate Sentence</button>
-                <button onclick="speakSentence()">Speak</button>
-                <button onclick="clearText()">Clear</button>
-            </div>
-
         </div>
+
+        <div class="button-row">
+            <button onclick="generateSentence()">Generate Sentence</button>
+            <button onclick="speakSentence()">Speak</button>
+            <button onclick="clearText()">Clear</button>
+        </div>
+
+</div>
 
     </div>
 
