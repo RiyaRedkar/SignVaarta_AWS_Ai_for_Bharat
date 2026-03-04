@@ -67,3 +67,41 @@ button:hover{
 video{
     border-radius:10px;
 }
+
+/* ISL page layout */
+
+.isl-container{
+    display:flex;
+    gap:40px;
+    align-items:flex-start;
+    margin-top:30px;
+}
+
+.camera-section video{
+    width:450px;
+    border-radius:12px;
+}
+
+.prediction-section{
+    max-width:400px;
+}
+
+.button-row{
+    margin-top:20px;
+    display:flex;
+    gap:10px;
+}
+
+/* responsive layout */
+
+@media (max-width:768px){
+
+    .isl-container{
+        flex-direction:column;
+    }
+
+    .camera-section video{
+        width:100%;
+    }
+
+}

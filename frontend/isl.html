@@ -5,31 +5,42 @@
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-    <h2>ISL Live Prediction</h2>
+    <h1>ISL Live Prediction</h1>
 
-    <video id="video" width="400" height="300" autoplay></video>
-    <br><br>
+    <div class="isl-container">
 
-    <h3>Prediction</h3>
-    <div id="predictionText">Waiting...</div>
+        <div class="camera-section">
+            <video id="video" width="400" height="300" autoplay></video>
+        </div>
 
-    <h3>Confidence</h3>
-    <div style="width:300px;background:#eee;border-radius:6px;">
-        <div id="confidenceBar" style="height:20px;width:0%;background:#4CAF50;border-radius:6px;"></div>
+        <div class="prediction-section">
+
+            <h3>Prediction</h3>
+            <div id="predictionText">Waiting...</div>
+
+            <h3>Confidence</h3>
+
+            <div class="confidence-container">
+                <div id="confidenceBar"></div>
+            </div>
+
+            <div id="confidenceValue">0%</div>
+
+            <h3>Gloss</h3>
+            <div id="glossText">Waiting...</div>
+
+            <h3>Formatted Sentence</h3>
+            <p id="sentence">Waiting...</p>
+
+            <div class="button-row">
+                <button onclick="generateSentence()">Generate Sentence</button>
+                <button onclick="speakSentence()">Speak</button>
+                <button onclick="clearText()">Clear</button>
+            </div>
+
+        </div>
+
     </div>
-    <div id="confidenceValue">0%</div>
-
-    <h3>Gloss</h3>
-    <div id="glossText">Waiting...</div>
-
-    <h3>Formatted Sentence:</h3>
-    <p id="sentence">Waiting...</p>
-
-
-    <br>
-    <button onclick="generateSentence()">Generate Sentence</button>
-    <button onclick="speakSentence()">Speak</button>
-    <button onclick="clearText()">Clear</button>
 
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js"></script>
