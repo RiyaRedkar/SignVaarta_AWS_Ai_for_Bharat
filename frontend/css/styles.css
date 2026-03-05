@@ -2,7 +2,6 @@ body{
     margin:0;
     font-family: Arial, Helvetica, sans-serif;
     background:#f5f6fa;
-    overflow:hidden;
 }
 /* NAVBAR */
 
@@ -132,13 +131,15 @@ video{
 
 .camera-section{
     flex:1;
+    background:black;
+    border-radius:14px;
+    overflow:hidden;
 }
 
 .camera-section video{
     width:100%;
     height:65vh;
     object-fit:cover;
-    border-radius:12px;
 }
 
 /* prediction panel */
@@ -147,7 +148,9 @@ video{
     flex:1;
     display:flex;
     flex-direction:column;
-    justify-content:space-between;
+    gap:18px;
+    max-height:70vh;
+    overflow-y:auto;
 }
 
 /* cards */
@@ -181,6 +184,8 @@ video{
 
 .button-row button{
     flex:1;
+    padding:12px;
+    font-size:16px;
 }
 
 /* responsive */
