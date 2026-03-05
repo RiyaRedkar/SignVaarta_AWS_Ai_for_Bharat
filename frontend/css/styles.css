@@ -11,7 +11,7 @@ width:100%;
 background: linear-gradient(90deg,#7b4ce2,#8a5cf6);
 color:white;
 
-```
+
 display:flex;
 justify-content:space-between;
 align-items:center;
@@ -20,7 +20,7 @@ padding:16px 70px;
 box-sizing:border-box;
 
 box-shadow:0 4px 12px rgba(0,0,0,0.1);
-```
+
 
 }
 
@@ -40,6 +40,7 @@ padding:20px 40px 10px 40px;
 .nav-links{
 display:flex;
 gap:28px;
+margin-left:auto;
 }
 
 .nav-links a{
@@ -97,17 +98,17 @@ button:hover
 /* CONFIDENCE BAR */
 
 .confidence-container{
-width:100%;
-height:8px;
-background:#ddd;
-border-radius:6px;
+    width:100%;
+    height:8px;
+    background:#e5e5e5;
+    border-radius:6px;
+    overflow:hidden;
 }
 
 #confidenceBar{
-height:100%;
-width:0%;
-background:#4CAF50;
-border-radius:6px;
+    height:100%;
+    width:0%;
+    background:linear-gradient(90deg,#7ed957,#b4e05a);
 }
 
 /* VIDEO */
@@ -154,11 +155,10 @@ gap:12px;
 /* CARDS */
 
 .card{
-background:white;
-padding:12px 14px;
-border-radius:12px;
-box-shadow:0 6px 18px rgba(0,0,0,0.08);
-transition:0.2s;
+    background:white;
+    padding:16px;
+    border-radius:12px;
+    box-shadow:0 6px 16px rgba(0,0,0,0.08);
 }
 
 .card:hover{
@@ -181,18 +181,14 @@ font-size:16px;
 
 /* RESPONSIVE */
 
-@media (max-width:768px){
+@media (max-width:900px){
 
-```
-.isl-container{
-    flex-direction:column;
-    height:auto;
-}
+    .isl-container{
+        grid-template-columns:1fr;
+    }
 
-.camera-section video{
-    width:100%;
-    height:auto;
-}
-```
+    .camera-section video{
+        height:380px;
+    }
 
 }
