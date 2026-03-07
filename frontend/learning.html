@@ -483,6 +483,7 @@
         let practiceFrameBuffer = [];
         let isMediaPipeLoaded = false;
         let isCameraActive = false;
+        let mediaPipeInitialized = false;
         
         // Hand connections for drawing skeleton
         const HAND_CONNECTIONS = [
@@ -784,6 +785,7 @@
                 isCameraActive = false;
                 practiceFrameBuffer = [];
                 
+                // Stop camera stream but keep MediaPipe hands initialized for reuse
                 if (practiceVideo && practiceVideo.srcObject) {
                     practiceVideo.srcObject.getTracks().forEach(track => {
                         try {
@@ -804,14 +806,8 @@
                     practiceCamera = null;
                 }
                 
-                if (practiceHands) {
-                    try {
-                        practiceHands.close();
-                    } catch (err) {
-                        console.error('Error closing MediaPipe:', err);
-                    }
-                    practiceHands = null;
-                }
+                // DON'T close practiceHands - keep it for reuse
+                // This makes subsequent practice sessions start faster
                 
                 // Show placeholder again
                 const placeholder = document.querySelector('.camera-placeholder-practice');
@@ -824,9 +820,35 @@
         
         function initializePracticeHands() {
             try {
+                // If MediaPipe is already initialized, just reuse it
+                if (mediaPipeInitialized && practiceHands) {
+                    console.log('Reusing existing MediaPipe hands instance');
+                    
+                    // Just start the camera with existing hands
+                    practiceCamera = new Camera(practiceVideo, {
+                        onFrame: async () => {
+                            if (isPracticing && practiceHands) {
+                                try {
+                                    await practiceHands.send({ image: practiceVideo });
+                                } catch (err) {
+                                    console.error('Error sending frame to MediaPipe:', err);
+                                }
+                            }
+                        },
+                        width: 640,
+                        height: 480
+                    });
+                    
+                    practiceCamera.start();
+                    return;
+                }
+                
+                // First time initialization
                 if (!window.Hands || !window.Camera) {
                     throw new Error('MediaPipe libraries not loaded');
                 }
+                
+                console.log('Initializing MediaPipe hands for the first time');
                 
                 practiceHands = new Hands({
                     locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`
@@ -856,6 +878,7 @@
                 });
                 
                 practiceCamera.start();
+                mediaPipeInitialized = true;
                 isMediaPipeLoaded = true;
                 
             } catch (err) {
