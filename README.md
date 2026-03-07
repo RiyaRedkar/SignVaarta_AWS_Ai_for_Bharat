@@ -2,7 +2,7 @@
 
 <div align="center">
 
-![SignVaarta Banner](image-1.png)
+![SignVaarta Banner](image.png)
 
 **Breaking Communication Barriers with AI**
 
@@ -13,7 +13,7 @@
 
 **Team TheCodeHers | AWS AI for Bharat Hackathon 2026**
 
-[Live Demo](https://main.d4rndg17i1jes.amplifyapp.com/) • [Architecture](#aws-architecture) • [Demo Video](#demo)
+[Live Demo](https://signvaarta.com/) • [Architecture](generated-diagrams\signvaarta-aws-architecture.png) • [Demo Video](#demo)
 
 </div>
 
@@ -613,7 +613,7 @@ By enabling seamless communication between ISL users and the hearing community, 
 ### Live Demo
 Access the live prototype here:
 
-https://main.d4rndg17i1jes.amplifyapp.com/
+https://signvaarta.com/
 
 ### Running the Project Locally
 
