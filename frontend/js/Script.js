@@ -71,9 +71,11 @@ stopBtn.onclick = async () => {
 
             const result = await startRes.json();
 
-            document.getElementById("original").innerText = result.original_text;
-            document.getElementById("english").innerText = result.english_text;
-            document.getElementById("translated").innerText = result.translated_text;
+            console.log("API Response:", result);
+
+            document.getElementById("original").innerText = result.original_text || "No text detected";
+            document.getElementById("english").innerText = result.english_text || "Translation not available";
+            document.getElementById("translated").innerText = result.translated_text || "Translation not available";
 
             // RESULT READY
             statusText.innerText = "✅ Completed";
@@ -81,6 +83,7 @@ stopBtn.onclick = async () => {
         } catch (error) {
             console.error("Error:", error);
             statusText.innerText = "❌ Error occurred";
+            document.getElementById("original").innerText = "Error: " + error.message;
         }
     };
 
