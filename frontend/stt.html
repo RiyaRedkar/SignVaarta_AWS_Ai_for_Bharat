@@ -1,126 +1,222 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-    <title>Speech to Text</title>
-    <link rel="stylesheet" href="css/styles.css">
+<meta charset="UTF-8">
+<title>Speech to Text</title>
+
+<link rel="stylesheet" href="css/styles.css">
+
+<style>
+
+/* HEADER ALIGNMENT */
+
+.stt-header{
+text-align:center;
+margin-top:30px;
+margin-bottom:30px;
+}
+
+.stt-header h1{
+font-size:36px;
+font-weight:700;
+color:#1a1a1a;
+display:flex;
+align-items:center;
+justify-content:center;
+gap:10px;
+}
+
+.subtitle{
+font-size:16px;
+color:#6b7280;
+margin-top:8px;
+}
+
+/* CARD CENTER */
+
+.page-content-stt{
+padding:40px;
+background:#f5f7fa;
+min-height:calc(100vh - 70px);
+}
+
+.stt-container{
+max-width:700px;
+margin:auto;
+text-align:center;
+}
+
+/* CARD COLOR */
+
+.card{
+background:linear-gradient(
+135deg,
+rgba(168,85,247,0.15),
+rgba(217,70,239,0.12)
+);
+padding:35px;
+border-radius:16px;
+box-shadow:0 2px 10px rgba(0,0,0,0.08);
+border:1px solid rgba(168,85,247,0.2);
+}
+
+/* BUTTONS */
+
+#startBtn{
+background:linear-gradient(135deg,#a855f7,#d946ef);
+color:white;
+}
+
+#stopBtn{
+background:linear-gradient(135deg,#a855f7,#d946ef);
+color:white;
+}
+
+#startBtn,#stopBtn{
+padding:12px 22px;
+border:none;
+border-radius:10px;
+font-weight:600;
+cursor:pointer;
+margin:10px;
+}
+
+/* OUTPUT BOX */
+
+.output p{
+background:#f9fafb;
+padding:12px;
+border-radius:8px;
+margin-top:6px;
+}
+
+.output h3{
+color:#a855f7;
+margin-top:16px;
+}
+
+</style>
+
 </head>
+
+
 <body>
-    <div class="navbar">
-        <div class="logo">
-            <span class="logo-text">Sign<span class="logo-vaarta">Vaarta</span></span>
-        </div>
-        <div class="nav-links">
-            <a href="index.html">Home</a>
-            <a href="isl.html">ISL to Speech</a>
-            <a href="learning.html">ISL Learning</a>
-            <a href="stt.html" class="active">Speech to Text</a>
-        </div>
-    </div>
 
-    <div class="page-content-stt">
-        <div class="stt-header">
-            <h1>Speech to Text</h1>
-            <p class="stt-subtitle">Convert spoken words into text.</p>
-        </div>
 
-        <div class="stt-container">
-            <button class="mic-button" id="micButton">
-                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
-                    <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
-                    <line x1="12" y1="19" x2="12" y2="23"></line>
-                    <line x1="8" y1="23" x2="16" y2="23"></line>
-                </svg>
-            </button>
-            <p class="mic-instruction">Tap the microphone to start</p>
+<!-- NAVBAR -->
 
-            <div class="transcript-card">
-                <div class="transcript-header">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-                    </svg>
-                    <span>Transcript</span>
-                </div>
-                <div class="transcript-content">
-                    <p id="transcriptText" class="transcript-placeholder">Your speech will appear here...</p>
-                </div>
-            </div>
-        </div>
+<div class="navbar">
 
-        <footer class="stt-footer">
-            <p>&copy; 2026 <span class="footer-brand">Sign<span class="footer-vaarta">Vaarta</span></span> - AI-powered Indian Sign Language Communication</p>
-        </footer>
-    </div>
+<div class="logo">
+<span class="logo-text">Sign<span class="logo-vaarta">Vaarta</span></span>
+</div>
 
-    <script>
-        const micButton = document.getElementById('micButton');
-        const transcriptText = document.getElementById('transcriptText');
-        let isRecording = false;
-        let recognition;
+<div class="nav-links">
+<a href="index.html">Home</a>
+<a href="isl.html">ISL to Speech</a>
+<a href="learning.html">ISL Learning</a>
+<a href="stt.html" class="active">Speech to Text</a>
+</div>
 
-        // Check if browser supports speech recognition
-        if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
-            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-            recognition = new SpeechRecognition();
-            recognition.continuous = true;
-            recognition.interimResults = true;
-            recognition.lang = 'en-US';
+</div>
 
-            recognition.onresult = (event) => {
-                let interimTranscript = '';
-                let finalTranscript = '';
 
-                for (let i = event.resultIndex; i < event.results.length; i++) {
-                    const transcript = event.results[i][0].transcript;
-                    if (event.results[i].isFinal) {
-                        finalTranscript += transcript + ' ';
-                    } else {
-                        interimTranscript += transcript;
-                    }
-                }
 
-                if (finalTranscript || interimTranscript) {
-                    transcriptText.textContent = (transcriptText.textContent === 'Your speech will appear here...' ? '' : transcriptText.textContent) + finalTranscript + interimTranscript;
-                    transcriptText.classList.remove('transcript-placeholder');
-                }
-            };
+<!-- PAGE CONTENT -->
 
-            recognition.onerror = (event) => {
-                console.error('Speech recognition error:', event.error);
-                stopRecording();
-            };
+<div class="page-content-stt">
 
-            recognition.onend = () => {
-                if (isRecording) {
-                    recognition.start();
-                }
-            };
-        }
+<div class="stt-container">
 
-        micButton.addEventListener('click', () => {
-            if (!recognition) {
-                alert('Speech recognition is not supported in your browser. Please use Chrome or Edge.');
-                return;
-            }
 
-            if (isRecording) {
-                stopRecording();
-            } else {
-                startRecording();
-            }
-        });
+<!-- HEADER -->
 
-        function startRecording() {
-            isRecording = true;
-            micButton.classList.add('recording');
-            recognition.start();
-        }
+<div class="stt-header">
 
-        function stopRecording() {
-            isRecording = false;
-            micButton.classList.remove('recording');
-            recognition.stop();
-        }
-    </script>
+<h1>
+
+<!-- MIC ICON -->
+
+<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30"
+fill="none" stroke="#a855f7" stroke-width="2"
+viewBox="0 0 24 24">
+
+<rect x="9" y="2" width="6" height="12" rx="3"></rect>
+<path d="M5 10v2a7 7 0 0 0 14 0v-2"></path>
+<line x1="12" y1="19" x2="12" y2="22"></line>
+<line x1="8" y1="22" x2="16" y2="22"></line>
+
+</svg>
+
+Speech to Text Translator
+
+</h1>
+
+<p class="subtitle">
+Speak in any language → Get English & Indian language text
+</p>
+
+</div>
+
+
+
+<!-- CARD -->
+
+<div class="card">
+
+
+<select id="lang">
+
+<option value="hi">Hindi</option>
+<option value="mr">Marathi</option>
+<option value="ta">Tamil</option>
+<option value="te">Telugu</option>
+<option value="bn">Bengali</option>
+<option value="gu">Gujarati</option>
+<option value="kn">Kannada</option>
+<option value="ml">Malayalam</option>
+
+</select>
+
+
+<br><br>
+
+
+<button id="startBtn">🎙️ Start Recording</button>
+<button id="stopBtn">⏹ Stop Recording</button>
+
+
+<p id="status">Status: Idle</p>
+
+
+<div class="output">
+
+<h3>Detected Text</h3>
+<p id="original">---</p>
+
+
+<h3>English Text</h3>
+<p id="english">---</p>
+
+
+<h3>Translated Text</h3>
+<p id="translated">---</p>
+
+</div>
+
+
+</div>
+
+
+</div>
+
+</div>
+
+
+
+<script src="script.js"></script>
+
 </body>
+
 </html>
