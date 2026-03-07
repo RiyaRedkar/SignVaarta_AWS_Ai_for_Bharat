@@ -114,7 +114,6 @@
 
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js"></script>
 
     <script>
     const video = document.getElementById("video");
@@ -124,6 +123,47 @@
     const confidenceBar = document.getElementById("confidenceBar");
     const confidenceValue = document.getElementById("confidenceValue");
     const glossText = document.getElementById("glossText");
+
+    // Hand connections for drawing skeleton
+    const HAND_CONNECTIONS = [
+        [0, 1], [1, 2], [2, 3], [3, 4],           // Thumb
+        [0, 5], [5, 6], [6, 7], [7, 8],           // Index finger
+        [0, 9], [9, 10], [10, 11], [11, 12],      // Middle finger
+        [0, 13], [13, 14], [14, 15], [15, 16],    // Ring finger
+        [0, 17], [17, 18], [18, 19], [19, 20],    // Pinky
+        [5, 9], [9, 13], [13, 17]                 // Palm
+    ];
+
+    // Draw hand landmarks
+    function drawHandLandmarks(landmarks) {
+        // Draw connections
+        ctx.strokeStyle = '#a855f7';
+        ctx.lineWidth = 2;
+        
+        for (const [start, end] of HAND_CONNECTIONS) {
+            const startPoint = landmarks[start];
+            const endPoint = landmarks[end];
+            
+            ctx.beginPath();
+            ctx.moveTo(startPoint.x * canvas.width, startPoint.y * canvas.height);
+            ctx.lineTo(endPoint.x * canvas.width, endPoint.y * canvas.height);
+            ctx.stroke();
+        }
+        
+        // Draw landmarks
+        ctx.fillStyle = '#d946ef';
+        for (const landmark of landmarks) {
+            ctx.beginPath();
+            ctx.arc(
+                landmark.x * canvas.width,
+                landmark.y * canvas.height,
+                4,
+                0,
+                2 * Math.PI
+            );
+            ctx.fill();
+        }
+    }
 
     let isPredicting = false;
     let frameBuffer = [];
@@ -187,21 +227,15 @@
     });
 
     hands.onResults(results => {
-        // Clear canvas and draw hand landmarks
-        ctx.save();
+        // Clear canvas
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         
         // Draw hand landmarks if detected
         if (results.multiHandLandmarks) {
             for (const landmarks of results.multiHandLandmarks) {
-                // Draw connections
-                drawConnectors(ctx, landmarks, HAND_CONNECTIONS, {color: '#a855f7', lineWidth: 2});
-                // Draw landmarks
-                drawLandmarks(ctx, landmarks, {color: '#d946ef', lineWidth: 1, radius: 3});
+                drawHandLandmarks(landmarks);
             }
         }
-        
-        ctx.restore();
         
         if (results.multiHandLandmarks && results.multiHandLandmarks.length > 0) {
 
