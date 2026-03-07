@@ -1,0 +1,21 @@
+# SignVaarta - Python Dependencies
+# Generated for AWS AI for Bharat Hackathon 2026
+
+# Web Framework
+fastapi==0.115.0
+uvicorn[standard]==0.32.0
+pydantic==2.9.2
+
+# CORS Support
+python-multipart==0.0.12
+
+# Machine Learning
+tensorflow==2.18.0
+numpy==1.26.4
+
+# AWS Services
+boto3==1.35.36
+botocore==1.35.36
+
+# Utilities
+python-dotenv==1.0.1
