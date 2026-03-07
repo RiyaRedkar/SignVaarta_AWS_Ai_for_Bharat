@@ -35,6 +35,7 @@
                 </div>
                 <div class="camera-container">
                     <video id="video" autoplay></video>
+                    <canvas id="canvas"></canvas>
                     <div class="camera-placeholder">
                         <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
                         <p>Camera feed will appear here</p>
@@ -113,9 +114,12 @@
 
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js"></script>
 
     <script>
     const video = document.getElementById("video");
+    const canvas = document.getElementById("canvas");
+    const ctx = canvas.getContext("2d");
     const predictionText = document.getElementById("predictionText");
     const confidenceBar = document.getElementById("confidenceBar");
     const confidenceValue = document.getElementById("confidenceValue");
@@ -183,6 +187,22 @@
     });
 
     hands.onResults(results => {
+        // Clear canvas and draw hand landmarks
+        ctx.save();
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        // Draw hand landmarks if detected
+        if (results.multiHandLandmarks) {
+            for (const landmarks of results.multiHandLandmarks) {
+                // Draw connections
+                drawConnectors(ctx, landmarks, HAND_CONNECTIONS, {color: '#a855f7', lineWidth: 2});
+                // Draw landmarks
+                drawLandmarks(ctx, landmarks, {color: '#d946ef', lineWidth: 1, radius: 3});
+            }
+        }
+        
+        ctx.restore();
+        
         if (results.multiHandLandmarks && results.multiHandLandmarks.length > 0) {
 
             let frame = [];
@@ -220,8 +240,14 @@
         onFrame: async () => {
             await hands.send({ image: video });
         },
-        width: 400,
-        height: 300
+        width: 640,
+        height: 480
+    });
+
+    // Set canvas size to match video
+    video.addEventListener('loadedmetadata', () => {
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
     });
 
     camera.start();
