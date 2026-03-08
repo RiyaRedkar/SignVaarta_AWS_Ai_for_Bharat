@@ -2,7 +2,7 @@
 
 <div align="center">
 
-![SignVaarta Banner](image.png)
+![SignVaarta Banner](images/image.png)
 
 **Breaking Communication Barriers with AI**
 
@@ -13,7 +13,7 @@
 
 **Team TheCodeHers | AWS AI for Bharat Hackathon 2026**
 
-[Live Demo](https://signvaarta.com/) • [Architecture](generated-diagrams\signvaarta-aws-architecture.png) • [Demo Video](#demo)
+[Live Demo](https://signvaarta.com/) • [Architecture](generated-diagrams/signvaarta-aws-architecture.png) • [Demo Video](#demo)
 
 </div>
 
@@ -21,7 +21,7 @@
 
 ## 🎯 The Accessibility Problem
 
-India has **over 63 million deaf and hard-of-hearing individuals**, yet less than **1% of the population understands Indian Sign Language (ISL)**. This creates critical communication barriers in:
+India has **over 63 million deaf, hard-of-hearing individuals and Mute**, yet less than **1% of the population understands Indian Sign Language (ISL)**. This creates critical communication barriers in:
 
 - **Healthcare**: Patients unable to communicate symptoms to doctors
 - **Education**: Students excluded from mainstream classrooms
@@ -287,7 +287,7 @@ ISL grammar follows SUBJECT OBJECT VERB order.
 English uses SUBJECT VERB OBJECT order.
 
 Convert the following gloss:
-Gloss: I WATER WANT
+Gloss:  I WATER WANT
 Sentence: I want water.
 ```
 
@@ -445,7 +445,7 @@ AWS Amplify CI/CD (Automatic deployment)
 
 ## 💰 Estimated AWS Cost
 
-### Prototype/Demo Scale (100 users/day)
+### Prototype/Demo Scale (100-200 users/day)
 
 | Service | Usage | Monthly Cost |
 |---------|-------|--------------|
