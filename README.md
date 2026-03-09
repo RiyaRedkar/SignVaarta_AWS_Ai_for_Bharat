@@ -638,7 +638,7 @@ pip install -r requirements.txt
 4. Start the FastAPI server
 
 ```
-uvicorn main:app --reload
+uvicorn app:app --reload
 ```
 
 5. Open the frontend
@@ -650,33 +650,6 @@ Open `index.html` in your browser or serve it using a local server.
 - Python 3.9+
 - Webcam access
 - Microphone access
-
----
-
-## 📂 Repository Structure
-
-```
-signvaarta/
-│
-├── frontend/
-│   ├── index.html
-│   ├── script.js
-│   └── styles.css
-│
-├── backend/
-│   ├── main.py
-│   ├── gesture_model.py
-│   ├── translation_service.py
-│   └── requirements.txt
-│
-├── models/
-│   └── isl_gesture_model.h5
-│
-├── assets/
-│   └── tutorial_images
-│
-└── README.md
-```
 
 ---
 
