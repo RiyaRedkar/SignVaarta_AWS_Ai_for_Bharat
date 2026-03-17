@@ -54,7 +54,7 @@ logs/
 .env.local
 
 venv/
-*.h5
-*.npy
+#*.h5
+#*.npy
 __pycache__/
 .env
